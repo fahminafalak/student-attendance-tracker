@@ -1,269 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#14213d">
-  <title>Student Attendance Tracker</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AttendEase | Attendance Tracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <a class="brand" href="#dashboard">
-        <span class="brand-mark">AT</span>
-        <span>
-          <strong>Attendify</strong>
-          <small>STUDENT MANAGEMENT</small>
-        </span>
-      </a>
 
-      <div class="sidebar-label">WORKSPACE</div>
-      <a class="nav-link active" href="#dashboard">▦ Dashboard</a>
-      <a class="nav-link" href="#students-section">♙ Students</a>
-      <a class="nav-link" href="#attendance-section">✓ Daily attendance</a>
+<header>
+    <div>
+        <h1>AttendEase</h1>
+        <p>Student Attendance Management System</p>
+    </div>
+    <span class="badge">STUDENT PORTAL</span>
+</header>
 
-      <div class="sidebar-note">
-        <span class="note-icon">✦</span>
-        <strong>Stay on track</strong>
-        <p>Keep attendance records accurate and identify students who may need support.</p>
-      </div>
-
-      <div class="sidebar-footer">ATTENDIFY • LOCAL WORKSPACE</div>
-    </aside>
-
-    <main class="main-content" id="dashboard">
-      <header class="topbar">
+<main>
+    <section class="welcome">
         <div>
-          <p class="eyebrow">STUDENT MANAGEMENT / OVERVIEW</p>
-          <h1>Attendance dashboard</h1>
-          <p class="page-subtitle">
-            A clear view of student records and daily attendance.
-          </p>
+            <h2>Attendance Dashboard</h2>
+            <p>Manage student records and track daily attendance.</p>
         </div>
-        <div class="topbar-date">
-          <span class="date-dot"></span>
-          <span id="todayLabel">Today's attendance</span>
+        <label>
+            Attendance Date
+            <input type="date" id="date">
+        </label>
+    </section>
+
+    <section class="stats">
+        <div class="card">
+            <p>Total Students</p>
+            <h2 id="total">0</h2>
         </div>
-      </header>
+        <div class="card">
+            <p>Present / Late</p>
+            <h2 id="present">0</h2>
+        </div>
+        <div class="card">
+            <p>Absent</p>
+            <h2 id="absent">0</h2>
+        </div>
+        <div class="card">
+            <p>Attendance Rate</p>
+            <h2 id="rate">0%</h2>
+        </div>
+    </section>
 
-      <section class="summary-grid">
-        <article class="summary-card">
-          <div class="summary-top">
-            <span class="summary-label">Total students</span>
-            <span class="summary-icon icon-blue">♙</span>
-          </div>
-          <div class="summary-value" id="totalStudents">0</div>
-          <div class="summary-foot">Registered student records</div>
-        </article>
-
-        <article class="summary-card">
-          <div class="summary-top">
-            <span class="summary-label">Present today</span>
-            <span class="summary-icon icon-green">✓</span>
-          </div>
-          <div class="summary-value" id="presentStudents">0</div>
-          <div class="summary-foot">Marked present for selected date</div>
-        </article>
-
-        <article class="summary-card">
-          <div class="summary-top">
-            <span class="summary-label">Absent today</span>
-            <span class="summary-icon icon-red">×</span>
-          </div>
-          <div class="summary-value" id="absentStudents">0</div>
-          <div class="summary-foot">Marked absent for selected date</div>
-        </article>
-
-        <article class="summary-card">
-          <div class="summary-top">
-            <span class="summary-label">Overall attendance</span>
-            <span class="summary-icon icon-purple">%</span>
-          </div>
-          <div class="summary-value" id="overallPercentage">
-            0<span class="value-percent">%</span>
-          </div>
-          <div class="summary-foot">Present days ÷ all marked days</div>
-        </article>
-      </section>
-
-      <section class="panel attendance-panel" id="attendance-section">
-        <div class="panel-heading">
-          <div>
-            <p class="eyebrow">DAILY REGISTER</p>
-            <h2>Mark attendance</h2>
-            <p class="panel-description">
-              Choose a date, then mark each student's status.
-            </p>
-          </div>
-
-          <label class="date-control">
-            Attendance date
-            <input type="date" id="attendanceDate">
-          </label>
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h2>Student Attendance</h2>
+                <p>Update attendance and monitor student records.</p>
+            </div>
+            <button onclick="openForm()">+ Add Student</button>
         </div>
 
-        <div class="attendance-toolbar">
-          <label class="search-wrap">
-            <span>⌕</span>
-            <input
-              type="search"
-              id="searchInput"
-              placeholder="Search name, student ID or department..."
-              autocomplete="off">
-          </label>
+        <div class="toolbar">
+            <input type="text" id="search"
+                   placeholder="Search name, ID or department">
 
-          <label class="filter-control">
-            Status
             <select id="statusFilter">
-              <option value="all">All statuses</option>
-              <option value="Present">Present</option>
-              <option value="Absent">Absent</option>
-              <option value="Leave">Leave</option>
-              <option value="Not marked">Not marked</option>
-              <option value="Low attendance">Low attendance</option>
+                <option value="">All Statuses</option>
+                <option>Present</option>
+                <option>Absent</option>
+                <option>Late</option>
+                <option>On Leave</option>
             </select>
-          </label>
 
-          <label class="threshold-control">
-            Low attendance below
-            <span class="threshold-input">
-              <input type="number" id="thresholdInput"
-                     min="1" max="100" value="75">
-              <span>%</span>
-            </span>
-          </label>
+            <label class="threshold">
+                Low attendance below
+                <input type="number" id="threshold"
+                       min="0" max="100" value="75">
+                %
+            </label>
+
+            <button class="secondary" onclick="markAllPresent()">
+                Mark All Present
+            </button>
         </div>
 
         <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Student</th>
-                <th>Student ID</th>
-                <th>Department</th>
-                <th>Today's status</th>
-                <th>Attendance</th>
-                <th>Mark status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="studentTableBody"></tbody>
-          </table>
-
-          <div class="empty-state" id="emptyState">
-            <span class="empty-icon">♙</span>
-            <strong>No students found</strong>
-            <p>Add a student or adjust your search and filters.</p>
-          </div>
-        </div>
-
-        <div class="table-footer">
-          <span id="tableCount">Showing 0 students</span>
-          <span class="legend">
-            <i class="legend-dot present-legend"></i>Present
-            <i class="legend-dot absent-legend"></i>Absent
-            <i class="legend-dot leave-legend"></i>Leave
-          </span>
-        </div>
-      </section>
-
-      <section class="content-grid" id="students-section">
-        <section class="panel student-form-panel">
-          <div class="panel-heading compact-heading">
-            <div>
-              <p class="eyebrow">STUDENT DIRECTORY</p>
-              <h2 id="formTitle">Add a student</h2>
-              <p class="panel-description">
-                Create or update a student record.
-              </p>
-            </div>
-            <span class="form-step">01</span>
-          </div>
-
-          <form id="studentForm">
-            <input type="hidden" id="editingId">
-
-            <div class="form-grid">
-              <label>
-                Student full name
-                <input id="studentName" type="text"
-                       placeholder="e.g. Ayesha Khan"
-                       maxlength="80" required>
-              </label>
-
-              <label>
-                Student ID / Roll no.
-                <input id="studentId" type="text"
-                       placeholder="e.g. CS101"
-                       maxlength="30" required>
-              </label>
-
-              <label class="full-field">
-                Department / Class
-                <input id="department" type="text"
-                       placeholder="e.g. B.Sc. Computer Science"
-                       maxlength="80" required>
-              </label>
-            </div>
-
-            <div class="form-actions">
-              <button type="button" class="button button-quiet"
-                      id="cancelEdit" hidden>
-                Cancel edit
-              </button>
-              <button type="submit" class="button button-primary"
-                      id="saveStudentButton">
-                ＋ Add student
-              </button>
-            </div>
-
-            <p class="form-message" id="formMessage" role="status"></p>
-          </form>
-        </section>
-
-        <section class="panel history-panel">
-          <div class="panel-heading compact-heading">
-            <div>
-              <p class="eyebrow">RECORD REVIEW</p>
-              <h2>Student attendance history</h2>
-              <p class="panel-description">
-                Review records for a student.
-              </p>
-            </div>
-            <span class="history-icon">▤</span>
-          </div>
-
-          <label class="history-select-label">
-            Select student
-            <select id="historyStudent">
-              <option value="">Choose a student...</option>
-            </select>
-          </label>
-
-          <div id="historySummary" class="history-summary">
-            Select a student to view their attendance history.
-          </div>
-
-          <div class="history-list-wrap">
-            <table class="history-table">
-              <thead>
-                <tr><th>Date</th><th>Status</th></tr>
-              </thead>
-              <tbody id="historyBody"></tbody>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Department</th>
+                        <th>Attendance Status</th>
+                        <th>Attendance %</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentList"></tbody>
             </table>
-          </div>
-        </section>
-      </section>
+        </div>
 
-      <footer class="page-footer">
-        <span>Attendify Student Attendance Tracker</span>
-        <span>Records are saved in this browser using Local Storage.</span>
-      </footer>
-    </main>
-  </div>
+        <p id="message" class="message"></p>
+        <p class="note">
+            Attendance is saved in your browser using Local Storage.
+        </p>
+    </section>
+</main>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!-- Add / Edit Student Form -->
+<div id="studentModal" class="modal">
+    <form id="studentForm" class="modal-box">
+        <h2 id="formTitle">Add Student</h2>
+
+        <label>Student ID</label>
+        <input id="studentId" required maxlength="20"
+               placeholder="Example: ST101">
+
+        <label>Student Name</label>
+        <input id="studentName" required maxlength="60"
+               placeholder="Enter student name">
+
+        <label>Department</label>
+        <input id="department" required maxlength="40"
+               placeholder="Example: Computer Science">
+
+        <div class="form-actions">
+            <button type="submit">Save Student</button>
+            <button type="button" class="secondary"
+                    onclick="closeForm()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<!-- Attendance History -->
+<div id="historyModal" class="modal">
+    <div class="modal-box history-box">
+        <h2 id="historyTitle">Attendance History</h2>
+        <div id="historyContent"></div>
+        <button onclick="closeHistory()">Close</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
-            </html>
+              </html>
